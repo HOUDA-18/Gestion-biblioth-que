@@ -18,17 +18,17 @@ Microservice de gestion des auteurs (Authors) avec système complet de CRUD et p
 ### Gestion des auteurs
 | Méthode | Endpoint               | Description                     |
 |---------|------------------------|---------------------------------|
-| GET     | `/authors/all`         | Liste tous les auteurs          |
-| GET     | `/authors/get/{id}`    | Récupère un auteur par ID       |
-| POST    | `/authors`             | Crée un nouvel auteur           |
-| PUT     | `/authors/update`      | Met à jour un auteur            |
-| DELETE  | `/authors/delete/{id}` | Supprime un auteur              |
+| GET     | `/author/all-list`         | Liste tous les auteurs          |
+| GET     | `/author/{id}`    | Récupère un auteur par ID       |
+| POST    | `/author`             | Crée un nouvel auteur           |
+| PUT     | `/author/update/{id}`      | Met à jour un auteur            |
+| DELETE  | `/author/delete/{id}` | Supprime un auteur              |
 
 ### Recherche et pagination
 | Méthode | Endpoint               | Description                     |
 |---------|------------------------|---------------------------------|
-| GET     | `/authors/search`      | Recherche paginée (nom/email)   |
-| GET     | `/authors/by-genre`    | Filtre paginé par genre         |
+| GET     | `/author/search`      | Recherche paginée (nom/email)   |
+| GET     | `/author/all`    | Filtre paginé par genre         |
 
 ### Paramètres de pagination
 | Paramètre  | Description                          | Valeur par défaut |
