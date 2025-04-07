@@ -18,15 +18,13 @@ public class SecurityConfig {
         return serverHttpSecurity
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/eureka/**").permitAll()
-                        .anyExchange().authenticated())
-                .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
+                        .pathMatchers(
+                                "/eureka/**",   // Accès libre à Eureka
+                                "/loan/**"      // Accès libre à LoanService
+                        ).permitAll()
+                        .anyExchange().authenticated()
+                )
+                //.oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults())) // Commentez si non utilisé
                 .build();
-    }
-
-    @Bean
-    public ReactiveJwtDecoder jwtDecoder() {
-        // Remplacez l'URL par celle de votre serveur d'autorisation
-        return NimbusReactiveJwtDecoder.withJwkSetUri("https://localhost/.well-known/jwks.json").build();
     }
 }

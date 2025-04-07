@@ -7,6 +7,7 @@ import tn.esprit.microservice.loan.Service.LoanService;
 import tn.esprit.microservice.loan.entity.Loan;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -41,4 +42,16 @@ public class LoanRestController {
         loanService.deleteLoan(loanId);
     }
 
+    @GetMapping("/filter")
+    public List<Loan> filterLoans(
+            @RequestParam(required = false) Integer loanId,
+            @RequestParam(required = false) Integer bookId,
+            @RequestParam(required = false) String cardNumber) {
+
+        return loanService.getLoansByFilters(loanId, bookId, cardNumber);
+    }
+    @GetMapping("/statistics")
+    public Map<String, Object> getStatistics() {
+        return loanService.getLoanStatistics();
+    }
 }
