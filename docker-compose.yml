@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  genre-service:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/dbGenre?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: 'true'
+      SERVER_PORT: 8089
+    ports:
+      - "8089:8089"
+    depends_on:
+      - mysql
+    networks:
+      - genre-network
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: dbGenre
+      MYSQL_ROOT_PASSWORD:  # Empty password as per your config
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - genre-network
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql_data:
+
+networks:
+  genre-network:
+    driver: bridge

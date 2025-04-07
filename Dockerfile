@@ -1,5 +1,4 @@
-FROM openjdk:17-jdk-slim
-EXPOSE 8091
-ADD target/book-0.0.1-SNAPSHOT.jar book.jar
-
-ENTRYPOINT ["java","-jar", "book.jar"]
+FROM openjdk:17
+EXPOSE 8089
+ADD target/Genre-0.0.1-SNAPSHOT.jar Genre-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "Genre-0.0.1-SNAPSHOT.jar"]

@@ -4,75 +4,64 @@ The **Library Management System** is a simple yet powerful application that allo
 
 ## API Reference
 
-#### Get all books
+#### Get all Genres
 
 ```http
-  GET /books
+  GET /Genre/
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `title`      | `string` | **Not Required**. title of book to fetch |
-| `author`      | `integer` | **Not Required**. authorId of book to fetch |
-| `publisher`      | `integer` | **Not Required**. publisherId of book to fetch |
-| `genre`      | `integer` | **Not Required**. genreId of book to fetch |
+| Parameter          | Type       | Description                            |
+| :------------------| :-------   | :--------------------------------------|
+| `name`             | `string`   | **Not Required**. name of genre        |
+| `description`      | `string`   | **Not Required**. description of genre |
+| `popularity`       |  `integer` | **Not Required**. popularity of genre  |
 
-#### Get book by id
+#### Get genre by id
 
 ```http
-  GET /books/${id}
+  GET /Genre/${id}
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of BOOK to fetch |
+| Parameter | Type     | Description                        |
+| :-------- | :------- | :--------------------------------  |
+| `id`      | `string` | **Required**. Id of genre to fetch |
 
-#### Update book by id
+#### Update genre by id
 
 ```http
-  PUT /books/${id}
+  PUT /Genre/
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of BOOK to fetch |
+| Parameter | Type       | Description                       |
+| :-------- | :-------   | :-------------------------------- |
+| `Genre`   | `genre`    | **Required**. updated genre       |
 
 
 #### Delete book by id
 
 ```http
-  DELETE /books/${id}
+  DELETE /Genre/${id}
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of BOOK to fetch |
+| `id`      | `string` | **Required**. Id of genre to fetch |
 
 
 #### Add a new book
 
 ```http
-  POST /books
+  POST /Genre/
 ```
 
-#### Get books By authors
+#### Get Top 5 genres
 
 ```http
-  GET /books/getBooksByAuthors
+  GET /Genre/Top5
 ```
 
-
-#### Get books cout by  publisher
+#### update Popularity of genre 
 
 ```http
-  GET /books/getBooksCountByPublisher
+  PUT /Genre/updatePop
 ```
-
-
-#### Get books distribution by  status
-
-```http
-  GET /books/getBooksCountByStatus
-```
-
-
