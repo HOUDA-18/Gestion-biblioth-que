@@ -10,11 +10,11 @@ The **Library Management System** is a simple yet powerful application that allo
   GET /Genre/
 ```
 
-| Parameter          | Type       | Description                            |
-| :------------------| :-------   | :--------------------------------------|
-| `name`             | `string`   | **Not Required**. name of genre        |
-| `description`      | `string`   | **Not Required**. description of genre |
-| `popularity`       |  `integer` | **Not Required**. popularity of genre  |
+| Parameter          | Type       | Description                        |
+| :------------------| :-------   | :----------------------------------|
+| `name`             | `string`   | **Required**. name of genre        |
+| `description`      | `string`   | **Required**. description of genre |
+| `popularity`       |  `integer` | **Required**. popularity of genre  |
 
 #### Get genre by id
 
