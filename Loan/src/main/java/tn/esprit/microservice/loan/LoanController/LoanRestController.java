@@ -54,4 +54,19 @@ public class LoanRestController {
     public Map<String, Object> getStatistics() {
         return loanService.getLoanStatistics();
     }
+    @GetMapping("/{loanId}/adjust-return-date")
+    public ResponseEntity<String> adjustReturnDateForHoliday(
+            @PathVariable Integer loanId,
+            @RequestParam String countryCode) {
+
+        Loan updatedLoan = loanService.checkAndAdjustReturnDate(loanId, countryCode);
+
+        if (updatedLoan.getReturnDate().after(loanService.getLoanById(loanId).get().getReturnDate())) {
+            return ResponseEntity.ok("Date étendue au " + updatedLoan.getReturnDate());
+        }
+
+        return ResponseEntity.ok("Date de retour valide : " + updatedLoan.getReturnDate());
+    }
+
 }
+

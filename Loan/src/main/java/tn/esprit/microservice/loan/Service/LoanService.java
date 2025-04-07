@@ -1,5 +1,6 @@
 package tn.esprit.microservice.loan.Service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.microservice.loan.Repositry.LoanRepositry;
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 public class LoanService {
     @Autowired
     private LoanRepositry loanRepositry;
+    @Autowired
+    private HolidayCheckService holidayCheckService;
     private static final int MAX_ACTIVE_LOANS = 3;
 
     public List<Loan> getAllLoans() {
@@ -94,5 +97,25 @@ public class LoanService {
                 "overdueLoans", loanRepositry.countByReturnDateBefore(new Date()),
                 "mostBorrowedBookId", loanRepositry.findMostBorrowedBookId()
         );
+    }
+    @Transactional
+    public Loan checkAndAdjustReturnDate(Integer loanId, String countryCode) {
+        Loan loan = loanRepositry.findById(loanId)
+                .orElseThrow(() -> new RuntimeException("Prêt non trouvé"));
+
+        if (holidayCheckService.isPublicHoliday(loan.getReturnDate(), countryCode)) {
+            Date newDate = addDays(loan.getReturnDate(), 1);
+            loan.setReturnDate(newDate);
+            return loanRepositry.save(loan);
+        }
+
+        return loan;
+    }
+
+    private Date addDays(Date date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
     }
 }
