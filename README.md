@@ -1,6 +1,21 @@
 # Système de Gestion de Bibliothèque
 
 Le **Le Système de Gestion de Bibliothèque**  est une application à la fois simple et puissante, conçue pour gérer des collections de livres. Il offre des fonctionnalités de base telles que l'ajout, la modification, la suppression et la consultation des ouvrages, ainsi que des options avancées, ce qui le rend idéal pour les bibliothèques, les collections personnelles ou les établissements éducatifs.
+# Microservice Loan
+Microservice de gestion des prêts (Loans) avec validation intelligente et ajustement automatique des dates de retour en fonction des jours fériés.
+## Technologies
+
+- Java 17
+- Spring Boot 3.x
+- Spring Data JPA
+- H2 Database 
+## Fonctionnalités
+
+- CRUD complet pour les prêts
+- Validation des prêts (limite de prêts actifs par utilisateur)
+- Filtrage multicritère des prêts
+- Ajustement automatique des dates de retour en fonction des jours fériés
+- Intégration avec l'API publique des jours fériés
 ## API Reference
 
 #### Get all loans
