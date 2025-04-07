@@ -1,11 +1,13 @@
 package tn.esprit.microservice.publisher.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import tn.esprit.microservice.publisher.Repositry.PubRepositry;
 import tn.esprit.microservice.publisher.entity.GeoCoordinates;
 import tn.esprit.microservice.publisher.entity.Publisher;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -109,6 +111,32 @@ public class PubService {
                 + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
 
         return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+
+    public ByteArrayResource exportPublishersToCsv() {
+        List<Publisher> publishers = pubRepositry.findAll();
+
+        StringBuilder csv = new StringBuilder();
+        // En-tête avec les colonnes souhaitées
+        csv.append("ID,Nom,Age,Localisation\n");
+
+        // Données
+        publishers.forEach(p -> {
+            csv.append(p.getPublisherId()).append(",")
+                    .append(escapeCsv(p.getName())).append(",")
+                    .append(p.getAge()).append(",")
+                    .append(escapeCsv(p.getLocalisation())).append("\n");
+        });
+
+        return new ByteArrayResource(csv.toString().getBytes(StandardCharsets.UTF_8));
+    }
+
+    private String escapeCsv(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            return "";
+        }
+        return "\"" + input.replace("\"", "\"\"") + "\"";
     }
 
 

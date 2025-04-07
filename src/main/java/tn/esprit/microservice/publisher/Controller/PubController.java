@@ -1,6 +1,10 @@
 package tn.esprit.microservice.publisher.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.microservice.publisher.Service.PubService;
@@ -63,6 +67,17 @@ public class PubController {
             @RequestParam double radiusKm) {
 
         return service.findPublishersNearby(location, radiusKm);
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<Resource> exportToCsv() {
+        ByteArrayResource resource = service.exportPublishersToCsv();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=publishers_export.csv")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .contentLength(resource.contentLength())
+                .body(resource);
     }
 
 }
