@@ -1,0 +1,53 @@
+
+version: '3.8'
+
+services:
+  eureka:
+    build: ./EurekaServer
+    image: houdachaanbi/eureka-server:1.0
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysql_8:3307/jobTest?createDatabaseIfNotExist=true&userSSL=false&max_allowed_packet=15728640
+      - eureka.client.service-url.defaultZone = http://eureka:8761/eureka/
+
+    
+
+  apigateway:
+    build: ./APIGatway
+    image: houdachaanbi/apigateway
+    container_name: apigateway
+    depends_on:
+      - eureka
+      - loanservice
+    ports:
+      - "8086:8086"
+    environment:
+      - eureka.client.service-url.defaultZone = http://eureka:8761/eureka/
+
+   
+      
+
+  loanservice:
+    build: ./Loan
+    image: houdachaanbi/loan-service
+    container_name: loanservice
+    depends_on:
+      - eureka
+    ports:
+      - "8090:8090"
+    environment:
+      - eureka.client.service-url.defaultZone = http://eureka:8761/eureka/
+
+
+    
+      
+
+  mysql_8:
+    image: mysql:8.0.23
+    container_name: mysql_8
+    ports:
+      - "3307:3306"
+   
+
