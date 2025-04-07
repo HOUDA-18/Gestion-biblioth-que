@@ -1,0 +1,66 @@
+services:
+  eureka:
+    build: ./Eureka
+    image: nourheneouhichi/mini-project-eureka-server:latest
+    container_name: eureka
+    ports:
+      - "8761:8761"
+    environment:
+      - spring.application.name=eureka
+      - server.port=8761
+      - eureka.client.register-with-eureka=false
+      - eureka.client.fetch-registry=false
+    networks:
+      - my-network
+
+  gateway:
+    build: ./Gateway
+    image: nourheneouhichi/mini-project-api-gateway:latest
+    container_name: apigateway
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka
+    environment:
+        - spring.application.name=GATEWAY
+        - server.port=8082
+        - eureka.client.service-url.defaultZone=http://eureka:8761/eureka
+    networks:
+        - my-network
+
+  author-service:
+    build: ./author1
+    image: nourheneouhichi/mini-project-microservice-author:latest
+    container_name: author-container
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka
+      - mysql
+    command: ["sh", "-c", "dockerize -wait tcp://mysql:3306 -timeout 30s && java -jar /app.jar"]
+    environment:
+      - spring.application.name=AUTHOR-SERVICE
+      - server.port=8081
+      - spring.datasource.url=jdbc:mysql://mysql:3306/authorDB?createDatabaseIfNotExist=true&useSSL=false&max_allowed_packet=15728640
+      - spring.datasource.username=root
+      - spring.datasource.password=
+      - eureka.client.service-url.defaultZone=http://eureka:8761/eureka
+    networks:
+      - my-network
+
+
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+
+
+networks:
+  my-network:
+    driver: bridge
