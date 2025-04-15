@@ -1,0 +1,6 @@
+com\esprit\microservice\genre\Genre.class
+com\esprit\microservice\genre\GenreServiceImpl.class
+com\esprit\microservice\genre\GenreRestController.class
+com\esprit\microservice\genre\GenreApplication.class
+com\esprit\microservice\genre\GenreRepository.class
+com\esprit\microservice\genre\IGenreService.class

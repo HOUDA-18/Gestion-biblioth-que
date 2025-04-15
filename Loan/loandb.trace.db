@@ -1,0 +1,33 @@
+2025-04-06 14:38:26.005422+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 14:40:34.168338+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 14:41:00.639232+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 14:41:31.509436+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 14:42:06.660327+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 14:44:56.978242+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 14:45:12.080902+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 16:25:44.202627+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 16:25:56.250638+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 16:25:58.092278+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
+2025-04-06 16:26:03.199549+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOAN" not found (this database is empty); SQL statement:
+insert into loan (book_id,card_number,loan_date,return_date,loan_id) values (?,?,?,?,default) [42104-232]
