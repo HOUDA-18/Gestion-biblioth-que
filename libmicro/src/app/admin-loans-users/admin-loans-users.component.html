@@ -1,0 +1,233 @@
+<div class="admin-container">
+    <h2>Manage Loans, Users & Library Cards</h2>
+    
+    <div class="admin-nav">
+      <button class="nav-button" routerLink="/admin/books">Back to Books</button>
+    </div>
+  
+    <!-- Placeholder sections -->
+    <section class="management-section">
+      <h3>User Management</h3>
+      
+      <button class="add-button" (click)="openUserModal()">Add New User</button>
+    
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role }}</td>
+              <td class="actions">
+                <button class="edit-btn" (click)="editUser(user)">Edit</button>
+                <button class="delete-btn" (click)="deleteUser(user.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <!-- User Modal -->
+      <div class="modal" [class.active]="showUserModal">
+        <div class="modal-content">
+          <span class="close" (click)="closeUserModal()">&times;</span>
+          <h3>{{ selectedUser ? 'Edit User' : 'Add New User' }}</h3>
+          
+          <form (submit)="selectedUser ? updateUser() : addUser()">
+            <div class="form-group">
+              <label>Name:</label>
+              <input type="text" [(ngModel)]="currentUser.name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label>Email:</label>
+              <input type="email" [(ngModel)]="currentUser.email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label>Role:</label>
+              <select [(ngModel)]="currentUser.role" name="role" required>
+                <option value="Patron">Patron</option>
+                <option value="Librarian">Librarian</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+            <button type="submit" class="save-btn">{{ selectedUser ? 'Update' : 'Save' }}</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  
+    <!-- admin-loans-users.component.html -->
+<section class="management-section">
+  <h3>Loan Management</h3>
+  
+  <button class="add-button" (click)="openLoanModal()">Add New Loan</button>
+
+  <div class="table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Loan ID</th>
+          <th>Book</th>
+          <th>User</th>
+          <th>Loan Date</th>
+          <th>Due Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loan of loans">
+          <td>{{ loan.id }}</td>
+          <td>{{ loan.bookTitle }}</td>
+          <td>{{ loan.userName }}</td>
+          <td>{{ loan.loanDate | date }}</td>
+          <td>{{ loan.dueDate | date }}</td>
+          <td [class]="loan.status.toLowerCase()">{{ loan.status }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="editLoan(loan)">Edit</button>
+            <button class="delete-btn" (click)="deleteLoan(loan.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+    <!-- Loan Modal -->
+    <div class="modal" [class.active]="showLoanModal">
+      <div class="modal-content">
+        <span class="close" (click)="closeLoanModal()">&times;</span>
+        <h3>{{ selectedLoan ? 'Edit Loan' : 'Add New Loan' }}</h3>
+        
+        <form (submit)="selectedLoan ? updateLoan() : addLoan()">
+          <div class="form-group">
+            <label>Book:</label>
+            <select [(ngModel)]="currentLoan.bookTitle" name="book" required>
+              <option *ngFor="let book of allBooks" [value]="book.title">{{ book.title }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>User:</label>
+            <select [(ngModel)]="currentLoan.userName" name="user" required>
+              <option *ngFor="let user of allUsers" [value]="user.name">{{ user.name }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Loan Date:</label>
+            <input type="date" [(ngModel)]="currentLoan.loanDate" name="loanDate" required>
+          </div>
+          <div class="form-group">
+            <label>Due Date:</label>
+            <input type="date" [(ngModel)]="currentLoan.dueDate" name="dueDate" required>
+          </div>
+          <div class="form-group">
+            <label>Status:</label>
+            <select [(ngModel)]="currentLoan.status" name="status" required>
+              <option>Active</option>
+              <option>Returned</option>
+              <option>Overdue</option>
+            </select>
+          </div>
+          <button type="submit" class="save-btn">{{ selectedLoan ? 'Update' : 'Save' }}</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  
+   <!-- admin-loans-users.component.html -->
+<section class="management-section">
+  <h3>Library Card Management</h3>
+  
+  <button class="add-button" (click)="openCardModal()">Issue New Card</button>
+
+  <div class="table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Card ID</th>
+          <th>User</th>
+          <th>Card Number</th>
+          <th>Issue Date</th>
+          <th>Expiry Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let card of libraryCards">
+          <td>{{ card.id }}</td>
+          <td>{{ card.userName }}</td>
+          <td>{{ card.cardNumber }}</td>
+          <td>{{ card.issueDate | date }}</td>
+          <td>{{ card.expiryDate | date }}</td>
+          <td [class]="card.status.toLowerCase()">{{ card.status }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="editCard(card)">Edit</button>
+            <button class="delete-btn" (click)="deleteCard(card.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Card Modal -->
+  <div class="modal" [class.active]="showCardModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeCardModal()">&times;</span>
+      <h3>{{ selectedCard ? 'Edit Library Card' : 'Issue New Card' }}</h3>
+      
+      <form (submit)="selectedCard ? updateCard() : addCard()">
+        <div class="form-group">
+          <label>User:</label>
+          <select [(ngModel)]="currentCard.userName" name="user" required>
+            <option *ngFor="let user of allUsers" [value]="user.name">{{ user.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Card Number:</label>
+          <input type="text" 
+                 [(ngModel)]="currentCard.cardNumber" 
+                 name="cardNumber" 
+                 placeholder="Auto-generated" 
+                 disabled>
+        </div>
+        <div class="form-group">
+          <label>Issue Date:</label>
+          <input type="date" 
+                 [(ngModel)]="currentCard.issueDate" 
+                 name="issueDate" 
+                 required>
+        </div>
+        <div class="form-group">
+          <label>Expiry Date:</label>
+          <input type="date" 
+                 [(ngModel)]="currentCard.expiryDate" 
+                 name="expiryDate" 
+                 required>
+        </div>
+        <div class="form-group">
+          <label>Status:</label>
+          <select [(ngModel)]="currentCard.status" name="status" required>
+            <option>Active</option>
+            <option>Expired</option>
+            <option>Revoked</option> 
+          </select>
+        </div>
+        <button type="submit" class="save-btn">
+          {{ selectedCard ? 'Update' : 'Issue Card' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+    
+  </div>

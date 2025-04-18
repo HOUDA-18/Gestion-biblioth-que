@@ -1,0 +1,107 @@
+<div class="page-wrapper">
+<div class="home-container">
+    
+    <!-- Add to top of home.component.html -->
+    <header class="library-header">
+        <div class="header-content">
+        <h1 class="library-name">bookHive</h1>
+        <p class="library-tagline">Your Community Knowledge Hub</p>
+        <p class="library-description">
+            Welcome to bookHive - where stories come alive and knowledge finds its wings. 
+            Explore our curated collection of over 50,000 books spanning countless genres. 
+        </p>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" placeholder="Search books by title, author, or genre..." class="search-input">
+            <button class="search-button ">
+            <svg class="search-icon" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            </button>
+        </div>
+        </div>
+        <div class="logout-container">
+            <button class="logout-button" (click)="logout()">
+              <svg class="logout-icon" viewBox="0 0 24 24">
+                <path d="M14 8V6c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2v-2h-2v2H6V6h6v2h2zm-1 3l5 5-5 5v-3H7v-2h6v-3z"/>
+              </svg>
+              Log Out
+            </button>
+          </div>
+    </header>
+  
+  <!-- The existing home-container with tables goes below this -->
+    <!-- All Books Section -->
+    <section class="book-section">
+      <h2 class="section-title">Library Books</h2>
+      <div class="table-container">
+        <table class="book-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Genre</th>
+              <th>Publisher</th>
+              <th>Available</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let book of books">
+              <td>{{ book.title }}</td>
+              <td>{{ book.author }}</td>
+              <td>{{ book.genre }}</td>
+              <td>{{ book.publisher }}</td>
+              <td>
+                <span class="status-dot" [ngClass]="{'available': book.available, 'unavailable': !book.available}"></span>
+                {{ book.available ? 'Yes' : 'No' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  
+    <!-- My Loans Section -->
+    <section class="loan-section">
+      <h2 class="section-title">My Loans</h2>
+      <div class="table-container">
+        <table class="loan-table">
+          <thead>
+            <tr>
+              <th>Loan Date</th>
+              <th>Return Date</th>
+              <th>Book</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let loan of loans">
+              <td>{{ loan.loanDate | date }}</td>
+              <td>{{ loan.returnDate | date }}</td>
+              <td>{{ loan.bookTitle }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <!-- Add at the bottom of home.component.html before closing div -->
+<section class="locations-section">
+    <h2 class="section-title">Our Locations</h2>
+    <div class="locations-container">
+      <div class="location-card">
+        <h3>Downtown Branch</h3>
+        <p>📌 123 Book Street<br>New York, NY 10001</p>
+        <p>📞 (212) 555-0123</p>
+        <div class="map-placeholder"></div>
+      </div>
+      
+      <div class="location-card">
+        <h3>Riverside Branch</h3>
+        <p>📌 456 Knowledge Ave<br>Los Angeles, CA 90001</p>
+        <p>📞 (213) 555-0456</p>
+        <div class="map-placeholder"></div>
+      </div>
+    </div>
+  </section>
+</div>

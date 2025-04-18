@@ -25,6 +25,7 @@ public class GenreRestController {
     }
     @PostMapping("/")
     public Genre addGenre(@RequestBody Genre c) {
+        c.setIdGenre(null);
         Genre Genre = GenreService.addGenre(c);
         return Genre;
     }

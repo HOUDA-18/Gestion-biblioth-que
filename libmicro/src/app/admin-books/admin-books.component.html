@@ -1,0 +1,329 @@
+<div class="admin-container">
+    <h2>Book Management</h2>
+    <button class="nav-button" routerLink="/admin/loans-users">
+      Manage Loans/Users/Cards
+    </button>
+    <button class="add-button" (click)="openModal()">Add New Book</button>
+
+  <div class="table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Available Copies</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of books">
+          <td>{{ book.bookId }}</td>
+          <td>{{ book.title }}</td>
+          <td [class]="book.status.toLowerCase()">{{ book.status }}</td>
+          <td>{{ book.numberAvailableCopies }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="editBook(book)">Edit</button>
+            <button class="delete-btn" (click)="deleteBook(book.bookId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Book Modal -->
+  <div class="modal" [class.active]="showModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h3>{{ selectedBook ? 'Edit Book' : 'Add New Book' }}</h3>
+      <form (submit)="selectedBook ? updateBook() : addBook()">
+        <div class="form-group">
+          <label>Title:</label>
+          <input type="text" [(ngModel)]="currentBook.title" name="title" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Status:</label>
+          <select [(ngModel)]="currentBook.status" name="status" required>
+            <option value="AVAILABLE">Available</option>
+            <option value="BORROWED">Borrowed</option>
+            <option value="ARCHIVED">Archived</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Available Copies:</label>
+          <input type="number" [(ngModel)]="currentBook.numberAvailableCopies" 
+                 name="copies" min="0" required>
+        </div>
+
+        <div class="form-group">
+          <label>Author:</label>
+          <select [(ngModel)]="currentBook.authorId" name="author" required>
+            <option *ngFor="let author of authors" [value]="author.id">
+              {{ author.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Publisher:</label>
+          <select [(ngModel)]="currentBook.publisherId" name="publisher" required>
+            <option *ngFor="let publisher of publishers" [value]="publisher.publisherId">
+              {{ publisher.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Genre:</label>
+          <select [(ngModel)]="currentBook.idGenre" name="genre" required>
+            <option *ngFor="let genre of genres" [value]="genre.idGenre">
+              {{ genre.name }}
+            </option>
+          </select>
+        </div>
+
+        <button type="submit" class="save-btn">
+          {{ selectedBook ? 'Update' : 'Save' }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+    <!-- Authors Section -->
+<section class="management-section">
+  <h3>Author Management</h3>
+  
+  <div class="add-form">
+    <input type="text" 
+           [(ngModel)]="newAuthorName" 
+           placeholder="Author name"
+           required>
+    <button class="add-btn" 
+            (click)="addAuthor()"
+            [disabled]="!newAuthorName.trim()">
+      Add Author
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let author of authors">
+          <td>{{ author.id }}</td>
+          <td>{{ author.name }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="editAuthor(author)">Edit</button>
+            <button class="delete-btn" (click)="deleteAuthor(author.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Edit Author Modal -->
+  <div class="modal" [class.active]="selectedAuthor">
+    <div class="modal-content">
+      <span class="close" (click)="selectedAuthor = null">&times;</span>
+      <h3>Edit Author</h3>
+      <form *ngIf="selectedAuthor" (submit)="updateAuthor()">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" 
+                 [(ngModel)]="selectedAuthor.name" 
+                 name="name"
+                 required>
+        </div>
+        <div class="form-actions">
+          <button type="button" 
+                  class="cancel-btn" 
+                  (click)="selectedAuthor = null">Cancel</button>
+          <button type="submit" 
+                  class="save-btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+  <!-- Publishers Section -->
+<section class="management-section">
+  <h3>Publisher Management</h3>
+  
+  <div class="add-form">
+    <input type="text" 
+           [(ngModel)]="newPublisherName" 
+           placeholder="Publisher name"
+           required>
+    <input type="number" 
+           [(ngModel)]="newPublisherAge" 
+           placeholder="Age"
+           min="1"
+           required>
+    <input type="text" 
+           [(ngModel)]="newPublisherLocation" 
+           placeholder="Location">
+    <button class="add-btn" 
+            (click)="addPublisher()"
+            [disabled]="!newPublisherName.trim() || !newPublisherAge">
+      Add Publisher
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Location</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let publisher of publishers">
+          <td>{{ publisher.publisherId }}</td>
+          <td>{{ publisher.name }}</td>
+          <td>{{ publisher.age }}</td>
+          <td>{{ publisher.localisation || '-' }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="editPublisher(publisher)">Edit</button>
+            <button class="delete-btn" (click)="deletePublisher(publisher.publisherId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Edit Publisher Modal -->
+  <div class="modal" [class.active]="selectedPublisher">
+    <div class="modal-content">
+      <span class="close" (click)="selectedPublisher = null">&times;</span>
+      <h3>Edit Publisher</h3>
+      <form *ngIf="selectedPublisher" (submit)="updatePublisher(selectedPublisher)">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" 
+                 [(ngModel)]="selectedPublisher.name" 
+                 name="name"
+                 required>
+        </div>
+        <div class="form-group">
+          <label>Age:</label>
+          <input type="number" 
+                 [(ngModel)]="selectedPublisher.age" 
+                 name="age"
+                 min="1"
+                 required>
+        </div>
+        <div class="form-group">
+          <label>Location:</label>
+          <input type="text" 
+                 [(ngModel)]="selectedPublisher.localisation" 
+                 name="location">
+        </div>
+        <div class="form-actions">
+          <button type="button" 
+                  class="cancel-btn" 
+                  (click)="selectedPublisher = null">Cancel</button>
+          <button type="submit" 
+                  class="save-btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+  <!-- Genres Section -->
+<section class="management-section">
+  <h3>Genre Management</h3>
+  
+  <div class="add-form">
+    <input type="text" 
+           [(ngModel)]="newGenreName" 
+           placeholder="Genre name"
+           required>
+    <textarea [(ngModel)]="newGenreDescription" 
+              placeholder="Genre description"></textarea>
+    <button class="add-btn" 
+            (click)="addGenre()"
+            [disabled]="!newGenreName.trim()">
+      Add Genre
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Popularity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let genre of genres">
+          <td>{{ genre.idGenre }}</td>
+          <td>{{ genre.name }}</td>
+          <td>{{ genre.description || '-' }}</td>
+          <td>{{ genre.popularity }}</td>
+          <td class="actions">
+            <button class="edit-btn" 
+                    (click)="editGenre(genre)">Edit</button>
+                    <button class="delete-btn" (click)="deleteGenre(genre.idGenre)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Edit Genre Modal -->
+  <div class="modal" [class.active]="selectedGenre">
+    <div class="modal-content">
+      <span class="close" (click)="selectedGenre = null">&times;</span>
+      <h3>Edit Genre</h3>
+      <form *ngIf="selectedGenre" (submit)="updateGenre(selectedGenre)">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" 
+                 [(ngModel)]="selectedGenre.name" 
+                 name="name"
+                 required>
+        </div>
+        <div class="form-group">
+          <label>Description:</label>
+          <textarea [(ngModel)]="selectedGenre.description" 
+                    name="description"
+                    rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Popularity:</label>
+          <input type="number" 
+                 [(ngModel)]="selectedGenre.popularity" 
+                 name="popularity"
+                 min="0"
+                 required>
+        </div>
+        <div class="form-actions">
+          <button type="button" 
+                  class="cancel-btn" 
+                  (click)="selectedGenre = null">Cancel</button>
+          <button type="submit" 
+                  class="save-btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </section>
+  </div>
