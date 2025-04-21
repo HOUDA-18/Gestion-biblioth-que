@@ -4,10 +4,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.microservice.loan.Repositry.LoanRepositry;
+import tn.esprit.microservice.loan.dto.Book;
 import tn.esprit.microservice.loan.entity.Loan;
+import tn.esprit.microservice.loan.proxy.BookClient;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,40 @@ public class LoanService {
     private LoanRepositry loanRepositry;
     @Autowired
     private HolidayCheckService holidayCheckService;
+    @Autowired
+    private BookClient bookServiceClient;
     private static final int MAX_ACTIVE_LOANS = 3;
+    public List<Book> fetchAvailableBooks() {
+        return bookServiceClient.getAvailableBooks();
+    }
+
+    public void createLoan(Integer bookId, String cardNumber) {
+        // 1. Récupérer les livres disponibles depuis le service Book
+        List<Book> availableBooks = fetchAvailableBooks();
+
+        // 2. Vérifier que le livre existe et est disponible
+        Optional<Book> matchedBook = availableBooks.stream()
+                .filter(book -> book.getBookId().equals(bookId))
+                .findFirst();
+
+        if (matchedBook.isEmpty()) {
+            throw new RuntimeException("Livre indisponible pour le prêt ou introuvable.");
+        }
+
+        // 3. Créer et enregistrer le prêt
+        Loan loan = new Loan();
+        loan.setBookId(bookId);
+        loan.setCardNumber(cardNumber);
+        loan.setLoanDate(new Date());
+
+        // Calcul de la date de retour (ex: 2 semaines plus tard)
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, 14);
+        loan.setReturnDate(calendar.getTime());
+
+        loanRepositry.save(loan);
+    }
 
     public List<Loan> getAllLoans() {
         return loanRepositry.findAll();
