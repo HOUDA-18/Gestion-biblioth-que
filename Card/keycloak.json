@@ -1,0 +1,14 @@
+{
+  "realm": "libary-system",
+  "auth-server-url": "http://localhost:8082/",
+  "ssl-required": "external",
+  "resource": "admin-client",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "S37abZB7322uuFvUmJC5Oz5tZ7S1Urfr"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {
+    "credentials": {}
+  }
+}

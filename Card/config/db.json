@@ -1,5 +1,6 @@
 {
-    "mongo":{
-        "uri":"mongodb://mongo:27017/CardLibrary"
+    "mongo": {
+      "uri": "mongodb://localhost:27017/librarycards"
     }
-}
+  }
+  

@@ -1,6 +1,7 @@
 package tn.esprit.microservice.loan.LoanController;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.microservice.loan.Service.LoanService;
@@ -66,6 +67,13 @@ public class LoanRestController {
         }
 
         return ResponseEntity.ok("Date de retour valide : " + updatedLoan.getReturnDate());
+    }
+    @Value("${welcome.message}")
+    private String welcomeMessage;
+
+    @GetMapping("/welcome")
+    public String welcome() {
+        return welcomeMessage;
     }
 
 }

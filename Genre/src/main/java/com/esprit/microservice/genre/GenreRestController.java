@@ -1,16 +1,21 @@
 package com.esprit.microservice.genre;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
+
 @RequestMapping("/Genre")
 public class GenreRestController {
-    IGenreService GenreService;
-    @GetMapping("/")
+    @Autowired
+  IGenreService GenreService;
+    @GetMapping("/all")
     public List<Genre> getGenres() {
         return  GenreService.retrieveAllGenres();
     }
@@ -23,7 +28,7 @@ public class GenreRestController {
         return   GenreService.retrieveGenre(chId);
 
     }
-    @PostMapping("/")
+    @PostMapping("/ajout")
     public Genre addGenre(@RequestBody Genre c) {
         Genre Genre = GenreService.addGenre(c);
         return Genre;
@@ -41,5 +46,22 @@ public class GenreRestController {
     public void updatePopularity(@RequestBody Genre c){
         c.setPopularity(c.getPopularity()+1);
         GenreService.modifyGenre(c);
+    }
+    // Injection de la propriété welcome.message depuis AuthorService.properties
+    @Value("${welcome.message}")
+    private String welcomeMessage;
+
+    // Injection de la propriété some.config.value
+    @Value("${some.config.value}")
+    private String someConfigValue;
+
+    @GetMapping("/welcome")
+    public String getWelcomeMessage() {
+        return welcomeMessage;
+    }
+
+    @GetMapping("/config")
+    public String getSomeConfigValue() {
+        return someConfigValue;
     }
 }

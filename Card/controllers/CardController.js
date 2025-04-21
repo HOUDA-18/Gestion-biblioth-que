@@ -1,6 +1,6 @@
 const {Card, CardSchema} = require("../models/Card");
 
-
+const axios = require('axios');
 
 exports.getAllCards=async (req,res)=>{
     try {
@@ -19,6 +19,30 @@ exports.getById=async (req,res)=>{
         res.status(400).json({error: error.message})
        }
 }
+exports.getWelcomeMessage = async (req, res) => {
+  try {
+    const response = await axios.get('http://localhost:8888/librarycards_entity/default');
+    const sources = response.data.propertySources;
+
+    let welcomeMessage = null;
+
+    for (const source of sources) {
+      if (source.source['welcome.message']) {
+        welcomeMessage = source.source['welcome.message'];
+        break;
+      }
+    }
+
+    if (welcomeMessage) {
+      res.json({ message: welcomeMessage });
+    } else {
+      res.status(404).json({ error: 'Propriété welcome.message non trouvée' });
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération du message de bienvenue:', error.message);
+    res.status(500).json({ error: 'Erreur lors de la récupération de la configuration' });
+  }
+};
 
 exports.addCard=async (req,res)=>{
     try {

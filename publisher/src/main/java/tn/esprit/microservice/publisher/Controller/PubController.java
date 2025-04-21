@@ -1,6 +1,7 @@
 package tn.esprit.microservice.publisher.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -79,5 +80,13 @@ public class PubController {
                 .contentLength(resource.contentLength())
                 .body(resource);
     }
+    @Value("${welcome.message}")
+    private String welcomeMessage;
+
+    @GetMapping("/welcome")
+    public String welcome() {
+        return welcomeMessage;
+    }
+
 
 }

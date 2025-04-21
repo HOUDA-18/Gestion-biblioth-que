@@ -3,6 +3,7 @@ package com.esprit.microservice.author1.controller;
 import com.esprit.microservice.author1.model.Author;
 import com.esprit.microservice.author1.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -73,27 +74,22 @@ public class AuthorController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name,asc") String[] sort) {
 
-        try {
+
             Sort.Direction direction = sort[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sort[0]));
 
             Page<Author> authors = authorService.searchAuthors(keyword, pageable);
             return ResponseEntity.ok(authors);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+
+
     }
 
     @PostMapping("/add")
     public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
-        try {
+
             Author createdAuthor = authorService.createAuthor(author);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdAuthor);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+
     }
 
     @PutMapping("/update/{id}")
@@ -117,4 +113,24 @@ public class AuthorController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    // Injection de la propriété welcome.message depuis AuthorService.properties
+    @Value("${welcome.message}")
+    private String welcomeMessage;
+
+    // Injection de la propriété some.config.value
+    @Value("${some.config.value}")
+    private String someConfigValue;
+
+    @GetMapping("/welcome")
+    public String getWelcomeMessage() {
+        return welcomeMessage;
+    }
+
+    @GetMapping("/config")
+    public String getSomeConfigValue() {
+        return someConfigValue;
+    }
+
+
 }
