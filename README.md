@@ -8,9 +8,6 @@ The **Library Management System** is a simple yet powerful application that allo
 - [Class Diagram](#ClassDiagram)
 - [Technology](#Technology)
 ### Frontend
-- [Client](#Client)
-  - Login
-  - Homepage
 - [Admin](#Admin)
   - User management
   - Book management
@@ -64,23 +61,6 @@ The **Library Management System** is a simple yet powerful application that allo
 
 
 # Frontend
-
-<a name="Client"></a>
-## Client
-
-1.Login (/login) :
-
-The library login interface provides secure patron authentication through combined username and physical card number validation.
-
-![Alt Text Description](loginPage.PNG)
-
-2.Homepage (/) :
-
- The library homepage serves as a patron's central portal, offering:
-- Dynamic book catalog browsing with filter/sort capabilities
-- Visual timeline of current/past loans
-
-![Alt Text Description](clientPage.PNG)
 
 <a name="Admin"></a>
 ## Admin
